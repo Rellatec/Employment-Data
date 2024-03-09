@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from tabulate import tabulate
 
 # Function to summarize data from a given DataFrame
 def summarize_data(data):
@@ -47,7 +46,10 @@ def main():
         ])
     
     # Display the summary table
-    st.table(summary_rows)
+    try:
+        st.table(summary_rows)
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()
