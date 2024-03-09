@@ -25,8 +25,14 @@ def main():
     # Allow user to upload CSV files
     uploaded_files = st.file_uploader("Upload CSV files", type='csv', accept_multiple_files=True)
     
-    # Initialize list for summary data including headers
-    summary_rows = [['File Name', '2022 Employment', 'Projected 2032 Employment', 'Employment Change 2022-2032', 'Percent Change 2022-2032']]
+    # Initialize dictionary for summary data
+    summary_data = {
+        'File Name': [],
+        '2022 Employment': [],
+        'Projected 2032 Employment': [],
+        'Employment Change 2022-2032': [],
+        'Percent Change 2022-2032': []
+    }
     
     # Display summary table for each uploaded file
     for uploaded_file in uploaded_files:
@@ -36,20 +42,15 @@ def main():
         # Summarize the data
         summary = summarize_data(data)
         
-        # Add summary data to list
-        summary_rows.append([
-            uploaded_file.name,
-            str(summary['2022 Employment']),  # Convert numeric values to strings
-            str(summary['Projected 2032 Employment']),
-            str(summary['Employment Change, 2022-2032']),
-            f"{summary['Percent Change, 2022-2032']:.2f}%"
-        ])
+        # Add summary data to dictionary
+        summary_data['File Name'].append(uploaded_file.name)
+        summary_data['2022 Employment'].append(summary['2022 Employment'])
+        summary_data['Projected 2032 Employment'].append(summary['Projected 2032 Employment'])
+        summary_data['Employment Change 2022-2032'].append(summary['Employment Change, 2022-2032'])
+        summary_data['Percent Change 2022-2032'].append(f"{summary['Percent Change, 2022-2032']:.2f}%")
     
     # Display the summary table
-    try:
-        st.table(summary_rows)
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+    st.table(pd.DataFrame(summary_data))
 
 if __name__ == "__main__":
     main()
