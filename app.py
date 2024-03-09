@@ -40,9 +40,9 @@ def main():
         # Add summary data to list
         summary_rows.append([
             uploaded_file.name,
-            summary['2022 Employment'],
-            summary['Projected 2032 Employment'],
-            summary['Employment Change, 2022-2032'],
+            str(summary['2022 Employment']),  # Convert numeric values to strings
+            str(summary['Projected 2032 Employment']),
+            str(summary['Employment Change, 2022-2032']),
             f"{summary['Percent Change, 2022-2032']:.2f}%"
         ])
     
